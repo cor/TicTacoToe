@@ -1,4 +1,4 @@
 TicTacoToe
 ===================
 
-A simple, commandline based, TicTacToe game written in Java
+A simple, console based, TicTacToe game written in Java
