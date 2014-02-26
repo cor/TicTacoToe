@@ -9,8 +9,9 @@ import java.util.Scanner;
 public class Game {
 
     public String gameStatus = "STARTSCREEN";
+    private String lastUserInput;
 
-
+    Scanner scanIn = new Scanner(System.in);
 
 
     public Game () {
@@ -26,12 +27,11 @@ public class Game {
 
 
             if("TUTORIAL".equals(gameStatus)) {
-
-                System.out.println("wow, much tutorial");
                 //TODO create tutorial
+                scanInput();
+                print(lastUserInput);
 
-
-
+                if (lastUserInput.equals("SHUTDOWN")) gameStatus = "SHUTDOWN";
             }
 
             else if("STARTSCREEN".equals(gameStatus)) {
@@ -83,21 +83,16 @@ public class Game {
         System.out.println(x);
     }
 
-    private String scanInput() {
+    private void scanInput() {
 
         String userInput;
 
         try {
-
-        Scanner scanIn = new Scanner(System.in);
         userInput = scanIn.nextLine();
-        scanIn.close();
-        return userInput;
+        lastUserInput = "" + userInput;
 
-        }
-        catch ( java.util.NoSuchElementException x) {
-            //If the input is empty, return an empty string
-            return "";
+        }catch ( java.util.NoSuchElementException x) {
+            lastUserInput = "";
 
         }
 
