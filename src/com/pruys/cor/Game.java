@@ -51,18 +51,69 @@ public class Game {
                 println("Good Luck!             (Press enter to continue)" );
                 scanInput();
                 clearScreen();
-                gameStatus = "SHUTDOWN";
+
+                gameStatus = "TURN_X";
             }
 
+            else if("TURN_X".equals(gameStatus)) {
+                printLevel();
+                println("What field do you choose, X?");
+                scanInput();
+                if( lastUserInputIsAField() && fieldIsEmpty(lastUserInputToInt() - 1)) {
+                    setField(1, lastUserInputToInt());
+                    clearScreen();
+                    println("Field " + lastUserInputToInt() + " changed to X");
+                    gameStatus = "TURN_O";
+
+                    if (gameWon(1)) gameStatus = "VICTORY_X";
+                    else gameStatus = "TURN_O";
+                }
+                else {
+                    clearScreen();
+                    println("RTFM");
+                }
+
+            }
+
+            else if("TURN_O".equals(gameStatus)) {
+                printLevel();
+                println("What field do you choose, O?");
+                scanInput();
+                if( lastUserInputIsAField() && fieldIsEmpty(lastUserInputToInt() - 1)) {
+                    setField(2, lastUserInputToInt());
+                    clearScreen();
+                    println("Field " + lastUserInputToInt() + " changed to O");
+
+                    if (gameWon(2)) gameStatus = "VICTORY_O";
+                    else gameStatus = "TURN_X";
+                }
+                else {
+                    clearScreen();
+                    println("RTFM");
+                }
+            }
+
+            else if ("VICTORY_X".equals(gameStatus)) {
+                clearScreen();
+                printLevel();
+                println("X HAS WON!");
+                println("Press enter to play again");
+                scanInput();
+
+            }
+
+            else if ("VICTORY_O".equals(gameStatus)) {
+                clearScreen();
+                printLevel();
+                println("O HAS WON!");
+                println("Press enter to play again");
+                scanInput();
+            }
 
             else gameStatus = "SHUTDOWN";
         }
     }
 
-    private void renderScreen(){
-
-
-    }
     private void printLevel(){
 
         System.out.println("-------------"); //Top
@@ -119,6 +170,17 @@ public class Game {
 
     }
 
+    /**
+     * Set a field in the level
+     *
+     * @param value 0 (empty), 1 (x) or 2 (o)
+     * @param position the field of the level you want to set.
+     */
+    private void setField(int value, int position) {
+        position--;
+        level[position] = value;
+    }
+
     private void clearLevel(){
 
         for(int i = 0; i < 9; i++) {
@@ -127,6 +189,9 @@ public class Game {
 
     }
 
+    /**
+     * Prints a lot of empty lines to create the illusion of an "empty" console
+     */
     private void clearScreen(){
 
         for(int i = 0; i < 100; i++) {
@@ -134,6 +199,30 @@ public class Game {
         }
     }
 
+    /**
+     * Checks if a player has won
+     *
+     * @param playerToCheck the player to check for victory
+     * @return if the playerToCheck has won, true. else false
+     */
+    private boolean gameWon(int playerToCheck) {
+        //horizontal
+        if (level[0] == playerToCheck && level[1] == playerToCheck && level[2] == playerToCheck) return true;
+        if (level[3] == playerToCheck && level[4] == playerToCheck && level[5] == playerToCheck) return true;
+        if (level[6] == playerToCheck && level[7] == playerToCheck && level[8] == playerToCheck) return true;
+        //diagonal
+        if (level[0] == playerToCheck && level[4] == playerToCheck && level[8] == playerToCheck) return true;
+        if (level[2] == playerToCheck && level[4] == playerToCheck && level[6] == playerToCheck) return true;
+        //vertical
+        if (level[0] == playerToCheck && level[3] == playerToCheck && level[6] == playerToCheck) return true;
+        if (level[1] == playerToCheck && level[4] == playerToCheck && level[7] == playerToCheck) return true;
+        if (level[2] == playerToCheck && level[5] == playerToCheck && level[8] == playerToCheck) return true;
+        return false;
+    }
+
+    /**
+     * Prints the start screen
+     */
     private void printIntro(){
 
         /*
@@ -167,6 +256,7 @@ public class Game {
         System.out.println(x);
     }
 
+
     private void scanInput() {
 
         String userInput;
@@ -181,6 +271,32 @@ public class Game {
 
         }
 
-
     }
+    /**
+     * Checks if the lastUserInput is a field
+     */
+    private boolean lastUserInputIsAField() {
+        for (int i = 1; i <= 9; i++) {
+            if (lastUserInput.equals("" + i)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if a field is empty
+     * @param zeroBasedFieldIndexToCheck the field (zerobased) you want to check
+     * @return true if it is empty, false if it is occupied
+     */
+    private boolean fieldIsEmpty(int zeroBasedFieldIndexToCheck) {
+        return level[zeroBasedFieldIndexToCheck] == 0;
+    }
+
+    /**
+     *
+     * @return the last user input, converted to an int
+     */
+    private int lastUserInputToInt () {
+        return Integer.parseInt(lastUserInput);
+    }
+
 }
