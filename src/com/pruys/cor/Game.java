@@ -16,6 +16,8 @@ public class Game {
     Scanner scanIn = new Scanner(System.in);
 
 
+
+
     public Game () {
         clearScreen();
         clearLevel();
@@ -32,6 +34,7 @@ public class Game {
                 printIntro();
                 scanInput();
                 clearScreen();
+                clearLevel();
 
                 gameStatus = "TUTORIAL";
             }
@@ -63,9 +66,9 @@ public class Game {
                     setField(1, lastUserInputToInt());
                     clearScreen();
                     println("Field " + lastUserInputToInt() + " changed to X");
-                    gameStatus = "TURN_O";
 
                     if (gameWon(1)) gameStatus = "VICTORY_X";
+                    else if (gameIsTie()) gameStatus = "TIE";
                     else gameStatus = "TURN_O";
                 }
                 else {
@@ -84,7 +87,9 @@ public class Game {
                     clearScreen();
                     println("Field " + lastUserInputToInt() + " changed to O");
 
+
                     if (gameWon(2)) gameStatus = "VICTORY_O";
+                    else if (gameIsTie()) gameStatus = "TIE";
                     else gameStatus = "TURN_X";
                 }
                 else {
@@ -99,6 +104,7 @@ public class Game {
                 println("X HAS WON!");
                 println("Press enter to play again");
                 scanInput();
+                gameStatus = "STARTSCREEN";
 
             }
 
@@ -108,6 +114,18 @@ public class Game {
                 println("O HAS WON!");
                 println("Press enter to play again");
                 scanInput();
+                clearScreen();
+                gameStatus = "STARTSCREEN";
+            }
+
+            else if ("TIE".equals(gameStatus)) {
+                clearScreen();
+                printLevel();
+                println("THE GAME IS A TIE!");
+                println("Press enter to play again");
+                scanInput();
+                clearScreen();
+                gameStatus = "STARTSCREEN";
             }
 
             else gameStatus = "SHUTDOWN";
@@ -280,6 +298,13 @@ public class Game {
             if (lastUserInput.equals("" + i)) return true;
         }
         return false;
+    }
+
+    public boolean gameIsTie(){
+        for (int i = 0; i <= 8; i++) {
+            if (level[i] == 0) return false;
+        }
+        return true;
     }
 
     /**
