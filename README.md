@@ -1,9 +1,10 @@
 TicTacoToe
 ===================
-A simple, console based, TicTacToe game written in Java
+A simple, console based, TicTacToe game written in Java.
+
 Can be played in both local multiplayer and AI mode.
 
-Note: The AI is really bad at this game, it literaly just does random things
+Note: The AI is really bad at this game, it literally just does random things
 
 ![](https://raw.github.com/CorPruijs/TicTacoToe/master/screenshots/startscreen.png)
 ![](https://raw.github.com/CorPruijs/TicTacoToe/master/screenshots/turn.png)
