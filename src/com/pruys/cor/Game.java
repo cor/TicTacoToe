@@ -31,6 +31,7 @@ public class Game {
         while(!"SHUTDOWN".equals(gameStatus)){
 
             if("STARTSCREEN".equals(gameStatus)) {
+                clearScreen();
                 printIntro();
                 scanInput();
                 clearScreen();
